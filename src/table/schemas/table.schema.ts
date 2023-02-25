@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument } from 'mongoose';
+import { Document } from 'mongoose';
 
-export type TableDocument = HydratedDocument<Table>;
+export type TableDocument = Table & Document;
 
 @Schema()
 export class Table {
@@ -15,7 +15,7 @@ export class Table {
   totalPrice: number;
 
   @Prop()
-  Currency: string;
+  currency: string;
 }
 
 export const TableSchema = SchemaFactory.createForClass(Table);
