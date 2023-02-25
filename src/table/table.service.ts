@@ -1,8 +1,9 @@
 import { InjectModel } from '@nestjs/mongoose';
 import { Injectable } from '@nestjs/common';
-import { Model } from 'mongoose';
+import { FilterQuery, Model } from 'mongoose';
 import { Table, TableDocument } from './schemas/table.schema';
 import { CreateTableDto } from './dto/create.table.dto';
+import { UpdateTableDto } from './dto/update.table.dto';
 
 @Injectable()
 export class TableService {
@@ -15,19 +16,19 @@ export class TableService {
     return new this.tableModel(createCatDto).save();
   }
 
-  async findAll(): Promise<Table[]> {
-    return this.tableModel.find().exec();
+  async findAll(company): Promise<Table[]> {
+    return this.tableModel.find(company).exec();
   }
 
-  // async findOne(name: string) {
-  //   return this.tableModel.findOne({ name });
-  // }
+  async findOne(id: string) {
+    return this.tableModel.findOne({ id });
+  }
 
-  // async update(name: string, updateBreedDto: UpdateBreedDto) {
-  //   return this.tableModel.updateOne({ name }, { $set: updateBreedDto });
-  // }
+  async update(id: string, updateTableDto: UpdateTableDto) {
+    return this.tableModel.updateOne({ id }, { $set: updateTableDto });
+  }
 
-  // async remove(id: string) {
-  //   return this.tableModel.deleteOne({ id });
-  // }
+  async remove(id: string) {
+    return this.tableModel.deleteOne({ id });
+  }
 }

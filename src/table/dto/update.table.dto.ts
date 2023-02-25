@@ -1,15 +1,6 @@
-import {
-  IsBoolean,
-  IsNotEmpty,
-  IsNumber,
-  IsString,
-  Matches,
-  Max,
-  MaxLength,
-  Min,
-  MinLength,
-} from 'class-validator';
-export class CreateTableDto {
+import { IsBoolean, IsNotEmpty, IsNumber, IsString, Matches, Max, MaxLength, Min, MinLength } from "class-validator";
+
+export class UpdateTableDto {
   @IsString()
   @IsNotEmpty()
   @MinLength(2)

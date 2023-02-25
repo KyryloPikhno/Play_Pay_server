@@ -1,34 +1,61 @@
-import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  NotFoundException,
+  Param,
+  Post,
+  Put,
+  Query,
+} from '@nestjs/common';
 import { TableService } from './table.service';
 import { CreateTableDto } from './dto/create.table.dto';
-import { Table } from "./schemas/table.schema";
+import { UpdateTableDto } from './dto/update.table.dto';
 
 @Controller('tables')
 export class TableController {
   constructor(private readonly tableService: TableService) {}
 
+  @Get()
+  async findAll(@Query('company') company: string) {
+    return await this.tableService.findAll({
+      companyName: new RegExp(company),
+    });
+  }
+
   @Post()
   async create(@Body() createTableDto: CreateTableDto) {
     return await this.tableService.create(createTableDto);
+  }
 
-    @Get()
-    async findAll(): Promise<Table[]>  {
-      return this.tableService.findAll();
+  @Get(':id')
+  async findOne(@Param('id') id: string) {
+    const table = await this.tableService.findOne(id);
+
+    if (!table) {
+      throw new NotFoundException();
     }
 
-  // @Get('id')
-  //   findOne(@Param('id') name: string) {
-  //     return this.tableService.findOne(name);
-  //   }
+    return table;
+  }
 
-  // @Put(':name')
-  //   update(@Param('id') id: string, @Body() updateBreedDto: UpdateBreedDto) {
-  //     return this.tableService.update(id, updateBreedDto);
-  //   }
+  @Put(':id')
+  async update(
+    @Param('id') id: string,
+    @Body() updateTableDto: UpdateTableDto,
+  ) {
+    const table = await this.tableService.update(id, updateTableDto);
 
-  // @Delete(':id')
-  //   remove(@Param('name') id: string) {
-  //     return this.tableService.remove(id);
-  //   }
+    if (!table) {
+      throw new NotFoundException();
+    }
+
+    return table;
+  }
+
+  @Delete(':id')
+  remove(@Param('id') id: string) {
+    return this.tableService.remove(id);
   }
 }
