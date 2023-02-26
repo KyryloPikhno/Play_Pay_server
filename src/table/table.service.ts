@@ -1,7 +1,11 @@
 import { InjectModel } from '@nestjs/mongoose';
-import { Injectable } from '@nestjs/common';
-import { FilterQuery, Model } from 'mongoose';
-import { Table, TableDocument } from './schemas/table.schema';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
+import mongoose from 'mongoose';
+import { Table } from './schemas/table.schema';
 import { CreateTableDto } from './dto/create.table.dto';
 import { UpdateTableDto } from './dto/update.table.dto';
 
@@ -9,26 +13,41 @@ import { UpdateTableDto } from './dto/update.table.dto';
 export class TableService {
   constructor(
     @InjectModel(Table.name)
-    private readonly tableModel: Model<TableDocument>,
+    private readonly tableModel: mongoose.Model<Table>,
   ) {}
 
-  async create(createCatDto: CreateTableDto): Promise<Table> {
-    return new this.tableModel(createCatDto).save();
-  }
-
   async findAll(company): Promise<Table[]> {
-    return this.tableModel.find(company).exec();
+    return await this.tableModel.find(company).exec();
   }
 
-  async findOne(id: string) {
-    return this.tableModel.findOne({ id });
+  async create(createCatDto: CreateTableDto): Promise<Table> {
+    return await this.tableModel.create(createCatDto);
   }
 
-  async update(id: string, updateTableDto: UpdateTableDto) {
-    return this.tableModel.updateOne({ id }, { $set: updateTableDto });
+  async findById(id: string) {
+    const isValidId = mongoose.isValidObjectId(id);
+
+    if (!isValidId) {
+      throw new BadRequestException('Please enter correct id.');
+    }
+
+    const table = await this.tableModel.findById({ _id: id });
+
+    if (table) {
+      return table;
+    } else {
+      throw new NotFoundException('Table not found.');
+    }
   }
 
-  async remove(id: string) {
-    return this.tableModel.deleteOne({ id });
+  async updateById(id: string, updateTableDto: UpdateTableDto): Promise<Table> {
+    return this.tableModel.findByIdAndUpdate({ _id: id }, updateTableDto, {
+      new: true,
+      runValidators: true,
+    });
+  }
+
+  async deleteById(id: string): Promise<Table> {
+    return this.tableModel.findByIdAndDelete({ _id: id });
   }
 }

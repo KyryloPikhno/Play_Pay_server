@@ -1,12 +1,12 @@
-import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { Table, TableSchema } from './schemas/table.schema';
+import { Module } from '@nestjs/common';
 import { TableController } from './table.controller';
 import { TableService } from './table.service';
+import { TableSchema } from './schemas/table.schema';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([{ name: Table.name, schema: TableSchema }]),
+    MongooseModule.forFeature([{ name: 'Table', schema: TableSchema }]),
   ],
   controllers: [TableController],
   providers: [TableService],

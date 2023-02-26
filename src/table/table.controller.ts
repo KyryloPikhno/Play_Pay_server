@@ -12,50 +12,43 @@ import {
 import { TableService } from './table.service';
 import { CreateTableDto } from './dto/create.table.dto';
 import { UpdateTableDto } from './dto/update.table.dto';
+import { Table } from './schemas/table.schema';
+import { ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 
-@Controller('tables')
+@ApiTags('table')
+@Controller('table')
 export class TableController {
   constructor(private readonly tableService: TableService) {}
 
   @Get()
-  async findAll(@Query('company') company: string) {
-    return await this.tableService.findAll({
+  async findAll(@Query('company') company: string): Promise<Table[]> {
+    return this.tableService.findAll({
       companyName: new RegExp(company),
     });
   }
 
+  @ApiResponse({ status: 201, type: Table })
   @Post()
-  async create(@Body() createTableDto: CreateTableDto) {
-    return await this.tableService.create(createTableDto);
+  async create(@Body() createTableDto: CreateTableDto): Promise<Table> {
+    return this.tableService.create(createTableDto);
   }
 
+  @ApiQuery({ name: 'id', example: '12345' })
   @Get(':id')
-  async findOne(@Param('id') id: string) {
-    const table = await this.tableService.findOne(id);
-
-    if (!table) {
-      throw new NotFoundException();
-    }
-
-    return table;
+  async findById(@Param('id') id: string): Promise<Table> {
+    return this.tableService.findById(id);
   }
 
   @Put(':id')
-  async update(
+  async updateById(
     @Param('id') id: string,
     @Body() updateTableDto: UpdateTableDto,
-  ) {
-    const table = await this.tableService.update(id, updateTableDto);
-
-    if (!table) {
-      throw new NotFoundException();
-    }
-
-    return table;
+  ): Promise<Table> {
+    return this.tableService.updateById(id, updateTableDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.tableService.remove(id);
+  deleteById(@Param('id') id: string): Promise<Table> {
+    return this.tableService.deleteById(id);
   }
 }

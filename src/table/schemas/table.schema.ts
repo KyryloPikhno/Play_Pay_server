@@ -1,24 +1,24 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document, now } from 'mongoose';
+import { now } from 'mongoose';
 
-export type TableDocument = Table & Document;
-
-@Schema({ timestamps: true })
+@Schema({
+  timestamps: true,
+})
 export class Table {
-  @Prop({ unique: true })
-  companyName: string;
+  @Prop({ required: true, unique: true })
+  companyName!: string;
 
-  @Prop()
-  gameName: string;
+  @Prop({ required: true })
+  gameName!: string;
 
-  @Prop()
-  totalPrice: number;
+  @Prop({ required: true, unique: true })
+  totalPrice!: number;
 
   @Prop({ default: false })
   status: boolean;
 
-  @Prop()
-  currency: string;
+  @Prop({ required: true })
+  currency!: string;
 
   @Prop({ default: now() })
   createdAt: Date;
