@@ -17,10 +17,9 @@ export class CreateTableDto {
     required: true,
   })
   @IsString()
-  @IsNotEmpty()
   @MinLength(2)
   @MaxLength(20)
-  readonly companyName: string;
+  companyName: string;
 
   @ApiProperty({
     example: 'GTA',
@@ -33,7 +32,7 @@ export class CreateTableDto {
   @Matches(/^[a-zA-Z0-9]+ ?([a-zA-Z0-9]+$){0,20}$/, {
     message: "The game name didn't match with RegExp :(",
   })
-  readonly gameName: string;
+  gameName: string;
 
   @ApiProperty({
     example: 100,
@@ -43,7 +42,7 @@ export class CreateTableDto {
   @IsNotEmpty()
   @Min(1)
   @Max(10000)
-  readonly totalPrice: number;
+  totalPrice: number;
 
   @ApiProperty({
     example: '$',
@@ -53,7 +52,7 @@ export class CreateTableDto {
   @IsNotEmpty()
   @MinLength(1)
   @MaxLength(2)
-  readonly currency: string;
+  currency: string;
 
   @ApiProperty({
     example: false,
@@ -61,5 +60,5 @@ export class CreateTableDto {
   })
   @IsBoolean()
   @IsNotEmpty()
-  readonly status: boolean;
+  status: boolean;
 }

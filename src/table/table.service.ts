@@ -4,8 +4,8 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import mongoose from 'mongoose';
-import { Table } from './schemas/table.schema';
+import mongoose, { Model } from 'mongoose';
+import { Table, TableDocument } from './schemas/table.schema';
 import { CreateTableDto } from './dto/create.table.dto';
 import { UpdateTableDto } from './dto/update.table.dto';
 
@@ -13,15 +13,15 @@ import { UpdateTableDto } from './dto/update.table.dto';
 export class TableService {
   constructor(
     @InjectModel(Table.name)
-    private readonly tableModel: mongoose.Model<Table>,
+    private readonly tableModel: Model<TableDocument>,
   ) {}
 
   async findAll(company): Promise<Table[]> {
     return await this.tableModel.find(company).exec();
   }
 
-  async create(createCatDto: CreateTableDto): Promise<Table> {
-    return await this.tableModel.create(createCatDto);
+  async create(createTableDto: CreateTableDto): Promise<Table> {
+    return await this.tableModel.create(createTableDto);
   }
 
   async findById(id: string) {
