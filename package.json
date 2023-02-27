@@ -20,7 +20,6 @@
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
-    "@netlify/functions": "^0.7.2",
     "@nestjs/common": "^9.0.0",
     "@nestjs/core": "^9.0.0",
     "@nestjs/graphql": "^10.2.0",
@@ -35,7 +34,6 @@
     "typeorm": "^0.3.12"
   },
   "devDependencies": {
-    "netlify-lambda": "^2.0.15",
     "@nestjs/cli": "^9.0.0",
     "@nestjs/config": "^2.3.1",
     "@nestjs/schematics": "^9.0.0",
