@@ -41,10 +41,19 @@ export class TableService {
   }
 
   async updateById(id: string, updateTableDto: UpdateTableDto): Promise<Table> {
-    return this.tableModel.findByIdAndUpdate({ _id: id }, updateTableDto, {
-      new: true,
-      runValidators: true,
-    });
+    const updatedTable = this.tableModel.findByIdAndUpdate(
+      { _id: id },
+      updateTableDto,
+      {
+        new: true,
+        runValidators: true,
+      },
+    );
+
+    if (!updatedTable) {
+      throw new BadRequestException('Please enter correct id.');
+    }
+    return updatedTable;
   }
 
   async deleteById(id: string): Promise<Table> {

@@ -22,7 +22,7 @@ export class TableController {
   @Get()
   async findAll(@Query('company') company: string): Promise<Table[]> {
     return this.tableService.findAll({
-      companyName: new RegExp(company),
+      companyName: company,
     });
   }
 

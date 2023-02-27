@@ -51,8 +51,15 @@ export class CreateTableDto {
   @IsString()
   @IsNotEmpty()
   @MinLength(1)
-  @MaxLength(2)
+  @MaxLength(5)
   currency: string;
+
+  @ApiProperty({
+    example: false,
+    required: false,
+  })
+  @IsBoolean()
+  status: boolean;
 
   @ApiProperty({
     example: false,
@@ -60,5 +67,5 @@ export class CreateTableDto {
   })
   @IsBoolean()
   @IsNotEmpty()
-  status: boolean;
+  confirm: boolean;
 }

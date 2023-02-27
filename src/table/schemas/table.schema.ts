@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument, now } from 'mongoose';
+import { HydratedDocument } from 'mongoose';
 
 export type TableDocument = HydratedDocument<Table>;
 
@@ -7,7 +7,7 @@ export type TableDocument = HydratedDocument<Table>;
   timestamps: true,
 })
 export class Table {
-  @Prop({ unique: true, required: true })
+  @Prop({ required: true })
   companyName: string;
 
   @Prop({ required: true })
@@ -22,11 +22,14 @@ export class Table {
   @Prop({ required: true })
   currency: string;
 
-  @Prop({ default: now() })
+  @Prop({ type: Date })
   createdAt: Date;
 
-  @Prop({ default: now() })
+  @Prop({ type: Date })
   updatedAt: Date;
+
+  @Prop({ required: true })
+  confirm: boolean;
 }
 
 export const TableSchema = SchemaFactory.createForClass(Table);
