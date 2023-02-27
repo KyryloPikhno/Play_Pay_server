@@ -13,6 +13,6 @@ async function bootstrap() {
     }),
   );
   await app.listen(process.env.PORT);
-  console.log(`Application is running on: ${await app.getUrl()}`);
+  console.log(`Application is running on: ${process.env.PORT}`);
 }
 bootstrap();
